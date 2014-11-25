@@ -1,5 +1,6 @@
 FROM debian:wheezy
-MAINTAINER jj <somemail@mail.com>
+MAINTAINER jj
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install openjdk-7-jre-headless wget -y && \
    apt-get clean autoclean && apt-get autoremove && \
    rm -rf /var/lib/{apt,dpkg,cache,log}
