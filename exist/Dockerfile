@@ -2,8 +2,7 @@ FROM debian:wheezy
 MAINTAINER Benedikt von St. Vieth
 
 # install everything and clean-up afterwards
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget openjdk-7-jre-headless && \
+RUN DEBIAN_FRONTEND noninteractive apt-get update && apt-get upgrade -y && apt-get install -y wget openjdk-7-jre-headless && \
   apt-get clean autoclean && apt-get autoremove && rm -rf /var/lib/{apt,dpkg,cache,log}
 
 # install exist and cleanup
