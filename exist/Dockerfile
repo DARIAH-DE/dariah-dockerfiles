@@ -6,7 +6,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   apt-get clean autoclean && apt-get autoremove && rm -rf /var/lib/{apt,dpkg,cache,log}
 
 # install exist and cleanup
-RUN wget -O '/opt/exist.jar' 'http://downloads.sourceforge.net/project/exist/Stable/2.2/eXist-db-setup-2.2RC2.jar' && \
+RUN wget -O '/opt/exist.jar' 'http://downloads.sourceforge.net/project/exist/Stable/2.2/eXist-db-setup-2.2.jar' && \
     echo 'INSTALL_PATH=/opt/exist' > '/opt/options.txt' && \
     java -jar '/opt/exist.jar' -options '/opt/options.txt' && \
     rm -f '/opt/exist.jar' '/opt/options' 
