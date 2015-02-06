@@ -1,16 +1,10 @@
-FROM debian:wheezy
+FROM tomcat:7.0
 MAINTAINER Jedrzej Rybicki
 
-RUN useradd -s /bin/nologin voyant
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y zip wget openjdk-7-jre-headless && \
-  apt-get clean autoclean && apt-get autoremove && rm -rf /var/lib/{apt,dpkg,cache,log}
-EXPOSE 8888
-RUN wget -q -O '/opt/voyant.zip' 'http://dev.voyant-tools.org/downloads/current/VoyantServer.zip' && \
-    cd /opt/ && unzip -qq voyant.zip && rm voyant.zip server-settings.txt && mkdir /opt/data/ &&\
-    echo -e "port = 8888\nmemory = 1024\ndata_directory = /opt/data/\nuri_path = /\nhost = 0.0.0.0" > /opt/server-settings.txt &&\
-    chown -R voyant:voyant /opt/
-VOLUME /opt/data/
-WORKDIR /opt/
-USER voyant
-CMD java -jar VoyantServer.jar --headless=true
-
+EXPOSE 8080
+RUN wget -q -O '/tmp/voyant.zip' 'http://dev.voyant-tools.org/downloads/current/VoyantServer.zip' && \
+    mkdir /tmp/voyant/ && cd /tmp/voyant/ && unzip -qq /tmp/voyant.zip && \
+    rm -rf /usr/local/tomcat/webapps/ROOT/ && cp -r _app/ /usr/local/tomcat/webapps/ROOT/ && \
+    rm -rf /tmp/voyant.zip /tmp/voyant/ && cd /usr/local/tomcat/
+VOLUME /usr/local/tomcat/temp
+CMD bin/startup.sh && tail -f logs/*.log
