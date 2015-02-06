@@ -1,7 +1,7 @@
 FROM tomcat:7.0
 MAINTAINER Jedrzej Rybicki
 ADD supervisord.conf /etc/supervisord.conf
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install supervisor && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install supervisor -y && \
    apt-get clean autoclean && apt-get autoremove && \
    rm -rf /var/lib/{apt,dpkg,cache,log}
 EXPOSE 8080
