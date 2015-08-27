@@ -1,12 +1,11 @@
-FROM debian:wheezy
+FROM centos:latest
 MAINTAINER Benedikt von St. Vieth
 
-# install everything and clean-up afterwards
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y wget openjdk-7-jre-headless && \
-  apt-get clean autoclean && apt-get autoremove && rm -rf /var/lib/{apt,dpkg,cache,log}
+# install dependencies and clean-up afterwards
+RUN yum -y update && yum install -y wget java-1.8.0-openjdk-headless && yum clean all && rm -rf /var/lib/{rpm,yum}
 
 # install exist and cleanup
-RUN wget -O '/opt/exist.jar' 'http://downloads.sourceforge.net/project/exist/Stable/2.2/eXist-db-setup-2.2.jar' && \
+RUN wget -q -O '/opt/exist.jar' 'http://downloads.sourceforge.net/project/exist/Stable/2.2/eXist-db-setup-2.2.jar' && \
     echo 'INSTALL_PATH=/opt/exist' > '/opt/options.txt' && \
     java -jar '/opt/exist.jar' -options '/opt/options.txt' && \
     rm -f '/opt/exist.jar' '/opt/options' 
@@ -14,9 +13,6 @@ RUN wget -O '/opt/exist.jar' 'http://downloads.sourceforge.net/project/exist/Sta
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh
 
-RUN useradd -s /bin/nologin exist && chown -R exist:exist /opt 
-# too much?
 VOLUME /opt/exist/webapp/WEB-INF/data/
-USER exist
 
 EXPOSE 8080
