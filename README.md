@@ -1,4 +1,4 @@
-dariah-dockerfiles
+dariah-dockerfiles ![unmaintained](https://img.shields.io/badge/repository-unmaintained-red.svg)
 ==================
 
 Collection of docker files used for automatic Docker builds.
